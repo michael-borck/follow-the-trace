@@ -1,0 +1,147 @@
+# Preserve the Trace {#sec-preserve}
+
+> If the evidence can be changed without a record, the investigation has already lost the argument.
+
+## The Concept First
+
+Digital evidence is fragile. Opening a file can change an access time. Mounting a disk can write to it. Booting a suspect machine can destroy memory. Copying a file can alter its metadata.
+
+Forensic preservation is the set of practices that keep the evidence trustworthy while you examine it. It has three parts:
+
+- **Integrity**: proof that the evidence has not changed.
+- **Provenance**: a record of where it came from.
+- **Custody**: a record of who handled it, when and why.
+
+A cryptographic hash is the usual integrity check. You hash the original, hash the copy and compare. A matching hash is evidence that the copy is byte-for-byte identical to the source at the time of capture. It does not prove the source was accurate or complete. It proves the copy matches.
+
+A chain of custody is the provenance and handling record. It names the evidence, the device, the serial number, the collector, the date, the hash, the storage location and every transfer. A gap in the chain is a question the other side will ask.
+
+A write blocker prevents changes during acquisition. Hardware write blockers are the strongest option. A software write blocker can be adequate in some contexts, but it depends on configuration and trust. The safest rule is simple: do not mount original evidence read-write.
+
+## Understanding Through a Museum Acquisition
+
+A museum accepts a fragile painting. The curator does not lean it against a radiator and touch up a scratch. The painting is photographed, measured, condition-checked and recorded before it enters the collection. Every move is logged. Conservation work is documented separately from the original condition.
+
+The record is not bureaucracy. It is how the museum can later prove that the painting it displays is the painting it received, and that any change was authorised and known.
+
+Digital evidence needs the same discipline. The original is preserved. The working copy is examined. Every change to the working copy is documented. The hash connects the copy to the original.
+
+## Discovering Preservation with Your AI Partner
+
+### Exploration 1: Audit a Chain of Custody
+
+Give the AI a custody record and ask it to find the questions a reviewer would ask.
+
+```text
+Here is a chain-of-custody record:
+[paste it]
+
+List every gap, ambiguity or inconsistency. For each one, write the
+question a reviewer, opposing counsel or auditor would ask. Do not assume
+the gap is fatal. State what evidence would close it.
+```
+
+Common gaps include a missing hash, an unexplained transfer, a time with no time zone, a device identifier that does not match the image, or a storage location with no access record.
+
+### Exploration 2: Explain the Hash
+
+Ask the AI to explain what a hash proves and what it does not.
+
+```text
+A SHA-256 hash of the original USB image matches the hash of the working
+copy. Explain what this proves, what it does not prove and what other
+records are needed to support the claim that the image is a complete and
+faithful copy of the device.
+```
+
+A good answer will distinguish integrity from completeness, provenance and interpretation. A matching hash does not prove the device was not tampered with before imaging, that the image contains every sector, or that the files mean what you think they mean.
+
+### Exploration 3: Design the Custody Record
+
+Ask the AI to review a custody template before you use it.
+
+```text
+Here is my chain-of-custody template:
+[paste it]
+
+What fields are missing for a digital investigation that may be used in
+a disciplinary or legal process? Consider device identity, hash algorithm,
+capture tool, write blocker, storage, access, transfer, time zone and
+authorisation.
+```
+
+The template should be usable by someone who was not in the room. If a field only makes sense to the person who filled it in, it is not a record.
+
+## From Concept to Practice
+
+A custody entry should be specific enough to survive a challenge.
+
+| Field | Example |
+|---|---|
+| Evidence ID | CC-2009-USB-01 |
+| Description | Generic USB flash volume, label PRACTICE |
+| Source | Desk drawer, level 4, Cloudcore Sydney |
+| Collected by | Analyst name and role |
+| Collected at | 2009-12-06 09:15 AEDT |
+| Device identifier | Serial or physical label |
+| Acquisition method | Write-blocked image, `dd` or `ewfacquire` |
+| Hash | SHA-256 before and after |
+| Storage | Evidence locker, restricted access |
+| Transfers | From, to, date, reason, signature |
+
+The record is not complete until the image hash, the tool and the write-blocker status are recorded. "Copied the USB" is not a forensic acquisition.
+
+## Lab Bridge
+
+The lab's first case includes templates and a walkthrough for evidence handling and imaging:
+
+- [Lab 1: USB Imaging](https://github.com/michael-borck/forensics-docker-lab/blob/main/cases/USB_Imaging/WALKTHROUGH.md)
+- [Chain-of-custody template](https://github.com/michael-borck/forensics-docker-lab/blob/main/templates/chain_of_custody.csv)
+
+Read the "how evidence is captured in real practice" section before you run the lab commands. The lab gives you a pre-captured image; the section explains what was skipped and why it matters.
+
+## Business Connection
+
+Organisations often treat forensic preservation as a legal formality to start after the investigation. By then, the evidence may already have been changed by an administrator, a help-desk technician or an automated backup.
+
+Preservation is an incident-response control. It protects the organisation's ability to make a defensible decision, whether that decision is disciplinary, contractual, regulatory or criminal. A weak chain of custody can turn a strong technical finding into an unusable one.
+
+## Practice Exercises
+
+**Exercise 2.1 (Level 1).** List the three parts of forensic preservation and give one example of each.
+
+**Exercise 2.2 (Level 2).** Review a chain-of-custody record and find three gaps a reviewer would question.
+
+**Exercise 2.3 (Level 3).** Explain to a non-technical manager what a matching SHA-256 hash proves and what it does not prove.
+
+**Exercise 2.4 (Level 4).** Design a custody record for a memory capture. Include the volatile-data risks and the time-critical steps.
+
+**Exercise 2.5 (Level 5).** Write the preservation plan for an investigation that may become a legal matter. Include acquisition, hashing, storage, access, transfer and destruction.
+
+## Chapter Summary
+
+- Digital evidence is easy to change and hard to trust without records.
+- Integrity, provenance and custody are separate claims.
+- A hash proves the copy matches the source; it does not prove completeness or meaning.
+- A chain of custody must be usable by someone who was not there.
+- Preservation is an incident-response control, not a legal afterthought.
+
+## Reflection
+
+Before moving on, ensure you:
+
+- [ ] Named the evidence, source and device
+- [ ] Recorded the hash algorithm and values
+- [ ] Recorded the acquisition tool and write-blocker status
+- [ ] Recorded every transfer and access
+- [ ] Identified one gap in your own record
+
+## Your Learning Journal
+
+1. Which preservation step is most often skipped under time pressure?
+2. What would a reviewer challenge first in your record?
+3. How would you explain a hash to a decision-maker without overselling it?
+
+## Next Steps
+
+The evidence is preserved. The next chapter separates acquisition from analysis, including the limits of a container-based lab.

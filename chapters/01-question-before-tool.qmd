@@ -1,0 +1,164 @@
+# The Question Before the Tool {#sec-question}
+
+> A tool can answer a question you did not ask. That is how investigations acquire a story they cannot support.
+
+## The Concept First
+
+A digital investigation starts with a question, not a command. The question sets the scope, the evidence you need and the standard your conclusion must meet.
+
+Three questions shape the work:
+
+- What happened?
+- When did it happen?
+- What evidence would distinguish the competing explanations?
+
+The last question is the one that turns an incident into an investigation. Without it, the analyst collects everything and explains whatever the first tool reveals.
+
+The Cloudcore case is a useful example. The tip says an employee may have copied client data before leaving. That is a hypothesis, not a finding. It could be true. It could be a misunderstanding. It could be a different person, a different device or a different motive. The investigation exists to test those possibilities against evidence, not to confirm the tip.
+
+An investigation also has a scope. Scope names the systems, the time window, the people and the questions in play. It does not name the answer. "Examine the USB image for deleted client data" is scope. "Prove the employee stole data" is a conclusion looking for evidence.
+
+Absence is data. A deleted file that is not there, a log entry that should exist and does not, or a network connection that never appears can all support a finding. But absence only means something when you can show where you looked and why the evidence should have been there.
+
+## Understanding Through a Doctor's Test
+
+A doctor does not order every test in the hospital. They ask what is wrong, what could explain it and which test would change the diagnosis.
+
+A test that cannot change the diagnosis is not worth the risk. A test that is ordered after the diagnosis is often a way to confirm what the doctor already believes.
+
+Forensic tools work the same way. `fls` is useful when the question is about file system entries. `volatility` is useful when the question is about processes in memory. `tshark` is useful when the question is about network traffic. None of them tells you what happened on its own.
+
+The question comes first. The tool is chosen because it can distinguish between explanations.
+
+## Discovering the Investigation with Your AI Partner
+
+### Exploration 1: Build the Question Set
+
+Ask your AI partner to turn an incident brief into questions and hypotheses, not a tool list.
+
+```text
+Here is the incident brief:
+[paste it]
+
+Write the questions the investigation must answer. For each question,
+write two or three competing hypotheses. For each hypothesis, name the
+evidence that would support it and the evidence that would rule it out.
+Do not name tools yet.
+```
+
+A useful answer separates the allegation from the possibilities. If every hypothesis points to the same suspect, the model has copied the brief rather than analysed it.
+
+### Exploration 2: Build the Evidence Matrix
+
+Once the questions exist, ask what evidence would answer them.
+
+```text
+Here are the investigation questions and hypotheses:
+[paste them]
+
+Build an evidence matrix. List the sources available: USB image, memory
+dump, mailbox, system logs, network capture and interview notes. For each
+source, name the question it can help answer, what it cannot show and
+what would make it unreliable.
+```
+
+The "cannot show" column is the important one. A network capture shows traffic, not intent. A memory dump shows a running process, not who started it. An email shows a message, not that the recipient read it.
+
+### Exploration 3: Challenge the Brief
+
+Ask the AI to argue against the obvious story.
+
+```text
+The brief alleges that an employee exfiltrated client data on a USB device.
+Write the strongest alternative explanations that are consistent with the
+same evidence. For each alternative, name the artefact that would make it
+more or less likely.
+```
+
+The exercise is not about defending the employee. It is about testing whether the evidence can distinguish the allegation from a mistake, a different device, a shared account or a compromised workstation.
+
+## From Concept to Practice
+
+A case brief can fit on one page:
+
+```markdown
+# Case brief: [case name]
+
+## Allegation
+What is claimed, by whom, and on what basis.
+
+## Questions
+What the investigation must answer.
+
+## Hypotheses
+The competing explanations, including the innocent ones.
+
+## Scope
+Systems, people, time window and evidence included.
+
+## Out of scope
+What this investigation will not examine.
+
+## Evidence available
+Source, owner, format, hash and custody status.
+
+## Decision this informs
+Who will use the finding, and for what.
+```
+
+The last line matters. An investigation that informs a disciplinary decision has a different standard from one that informs a system cleanup. The report should say which one it is.
+
+## Lab Bridge
+
+The companion lab provides the evidence and the tools. Start with the lab overview, then read the scenario before running any command:
+
+- [Forensics lab](https://forensics.borck.education/)
+- [Scenario and case background](https://github.com/michael-borck/forensics-docker-lab/blob/main/docs/scenario.md)
+
+Write your question set before you open the USB image. If you start with the tool, you will find a story in the first output and spend the rest of the lab defending it.
+
+## Business Connection
+
+Investigations are expensive, and most of the cost sits in scope. An unlimited scope collects everything, reviews everything and still misses the question that mattered.
+
+A clear question set lets the team stop. It also protects the organisation from a report that says "suspicious activity was found" without saying what decision the finding supports. A finding that cannot change a decision is a cost, not an assurance.
+
+## Practice Exercises
+
+**Exercise 1.1 (Level 1).** Write three questions the Cloudcore investigation must answer, and one hypothesis for each.
+
+**Exercise 1.2 (Level 2).** Build an evidence matrix for the USB image, memory dump, mailbox and network capture. Name one thing each source cannot show.
+
+**Exercise 1.3 (Level 3).** Write the strongest innocent explanation consistent with an employee copying files to a USB device. Name the artefact that would make it more or less likely.
+
+**Exercise 1.4 (Level 4).** Write a case brief for an investigation where the allegation is correct but the scope is wrong. Explain what the report can still support.
+
+**Exercise 1.5 (Level 5).** Take a real incident report and separate its questions, hypotheses, evidence and conclusions. Mark any conclusion that is not supported by the evidence listed.
+
+## Chapter Summary
+
+- An investigation starts with questions and competing hypotheses.
+- A hypothesis is not a finding, even when the client is sure.
+- Scope names systems, people, time and evidence, not the answer.
+- Every source can answer some questions and cannot answer others.
+- Absence is data only when you can show where you looked.
+
+## Reflection
+
+Before moving on, ensure you:
+
+- [ ] Wrote the allegation separately from the hypotheses
+- [ ] Included at least one innocent explanation
+- [ ] Named the evidence that would rule each hypothesis out
+- [ ] Wrote the scope and the out-of-scope list
+- [ ] Named the decision the investigation informs
+
+## Your Learning Journal
+
+1. Which hypothesis was hardest to take seriously?
+2. Which source is most likely to be overread?
+3. What would you need to know before you trusted the brief?
+
+## Next Steps
+
+The questions are set. The next chapter protects the evidence that will answer them.

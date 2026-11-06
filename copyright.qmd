@@ -1,0 +1,13 @@
+# Copyright {.unnumbered}
+
+**Follow the Trace, Prove the Case: Digital Forensics in Practice**
+
+© 2026 Michael Borck.
+
+Book content is licensed under [Creative Commons Attribution 4.0 International (CC BY 4.0 International)](https://creativecommons.org/licenses/by/4.0/).
+
+The companion forensics lab is licensed separately under the MIT License. Third-party evidence samples retain their stated terms; see the lab's `docs/evidence-sources.md`.
+
+The case is fictional. Any resemblance to a real organisation or person is coincidental.
+
+**ISBN:** (to be assigned)

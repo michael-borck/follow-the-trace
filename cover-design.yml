@@ -1,0 +1,13 @@
+version: 1
+style: editorial-c
+art: cover-art.png
+family: SECURITY / DIGITAL FORENSICS
+accent: '#6A5346'
+background: '#EEE5DF'
+title_lines:
+- Follow the Trace,
+- Prove the Case
+dark: false
+pixel: false
+scene: trace
+art_origin: Locally constructed editable vector illustration.

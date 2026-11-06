@@ -1,0 +1,32 @@
+# Follow the Trace, Prove the Case {.unnumbered}
+
+> The tool does not decide what happened. It produces an artefact. The investigator decides what the artefact can support.
+
+## Who this is for
+
+This book is for people learning digital forensics, incident responders who need to explain their findings, and analysts who can run a tool but are less sure how to defend the result.
+
+It assumes you can use a command line, read a log and follow a lab. It does not assume you are a lawyer, a police officer or a full-time forensic examiner.
+
+## The companion lab
+
+The running case is the **Cloudcore** investigation in the [forensics-docker-lab](https://forensics.borck.education/). A mid-sized software company suspects that an employee copied client data before leaving. The lab provides a USB image, a memory dump, an email archive, network traffic and report templates.
+
+The lab teaches the tools. This book teaches the reasoning around them: what question you are answering, how to preserve the evidence, what an artefact can support and how to report uncertainty without weakening the case.
+
+## What you will build
+
+By the end, you will have a method for:
+
+- framing an investigation as questions and hypotheses
+- preserving integrity and documenting custody
+- distinguishing acquisition from analysis
+- examining disk, memory, email and network evidence
+- correlating artefacts into a timeline without forcing a story
+- writing a report that a decision-maker can use and an examiner can reproduce
+
+## How to read it
+
+Read the chapters in order. Each chapter ends with an AI exploration, a lab bridge, practice tasks, a summary and a reflection. The lab bridge points to the relevant part of the Docker lab, but the chapter stands alone if you only want the reasoning.
+
+The case is deliberately not solved in the text. The evidence in your lab run is the evidence you must explain.

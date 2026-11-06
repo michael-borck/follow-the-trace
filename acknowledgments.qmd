@@ -1,0 +1,7 @@
+# Acknowledgments {.unnumbered}
+
+This book is a companion to the **forensics-docker-lab**, a hands-on investigation built around the fictional Cloudcore case. The lab supplies the evidence, the workstation and the walkthroughs. This book supplies the reasoning that sits around the tools.
+
+The lab draws on established forensic practice: chain of custody, hash verification, write blocking, file carving, memory analysis, network capture interpretation and professional reporting.
+
+AI assistants were used for drafting, review and scenario testing. They also produced confident explanations that did not survive contact with the evidence, which is why the book treats provenance, uncertainty and reproducibility as part of the method. The judgement and the responsibility for every claim remain the author's.

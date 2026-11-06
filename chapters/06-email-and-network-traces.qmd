@@ -1,0 +1,154 @@
+# Email and Network Traces {#sec-email-network}
+
+> Email shows what someone sent. Network traffic shows what left the building. Neither shows why.
+
+## The Concept First
+
+Email and network evidence answer different questions.
+
+An email archive can show the sender, recipient, subject, date, headers, body and attachments. It can support findings about communication, coordination and data sharing. It cannot prove the recipient read the message, that the attachment was opened, or that the sender was at the keyboard.
+
+A network capture can show connections, protocols, endpoints, timing and data volume. It can support findings about communication with an external host and data transfer. It cannot show the content of encrypted traffic, and it cannot prove who was using the device.
+
+Both are context-rich and easy to overread.
+
+Email headers carry routing and authentication information. They can reveal the sending server, the path and the time. They can also be forged or altered. An attachment hash connects the email to a file found elsewhere. The hash is stronger than the filename.
+
+Network analysis starts with flows, not packets. Which hosts talked, on which ports, for how long and how much data moved? DNS queries can reveal the names behind an IP address. TLS can hide the content but not the destination, the certificate or the volume. A large outbound transfer at 2am is a clue. It is not proof of exfiltration without context.
+
+The strongest finding connects the email, the network flow and the file. A message to an external address, a matching attachment hash and a network transfer around the same time are stronger than any one of them.
+
+## Understanding Through Postal Mail and Traffic Cameras
+
+A letter shows the sender, the address, the postmark and the contents. It does not show who read it. A traffic camera shows a car at a junction. It does not show the driver or the conversation inside.
+
+An investigation that has both can say more. The letter was posted at 4pm. The car passed the camera at 4:20pm. The recipient's address is on the envelope. The combination supports a sequence. The camera still does not prove the driver delivered the letter.
+
+Email and network evidence work the same way. Each is a partial record. The sequence is the finding.
+
+## Discovering Email and Network Evidence with Your AI Partner
+
+### Exploration 1: Read the Headers
+
+Ask the AI to explain the routing and the limits.
+
+```text
+Here are the headers from an email in an MBOX file:
+[paste them]
+
+Explain the sender, recipient, date, routing path and any authentication
+information. Mark what could be forged, what a mail server would add and
+what the headers cannot prove about the recipient.
+```
+
+A good answer will separate the visible From line from the envelope sender and the routing headers. It will not claim the recipient read the message.
+
+### Exploration 2: Connect Attachment to File
+
+Ask how to prove an attachment matches a recovered file.
+
+```text
+An email has an attachment named project_secrets.zip. A deleted ZIP file
+was recovered from the USB image. Explain how to determine whether they
+are the same file. What should be hashed, and what would a match prove?
+```
+
+A hash match proves the content is identical. It does not prove the email was sent after the file was copied, or that the same person did both. Timing and custody records are still needed.
+
+### Exploration 3: Read Network Flows Without Overclaiming
+
+Ask for a flow summary before packet-level detail.
+
+```text
+Here is a `tshark` flow summary:
+[paste it]
+
+Identify the external endpoints, protocols, ports and data volumes that
+deserve follow-up. Explain what each flow can and cannot prove. Mark any
+encrypted traffic where the content is unavailable.
+```
+
+The output should separate "a connection existed" from "data was exfiltrated". Volume, direction and timing help. Content may not be available.
+
+### Exploration 4: Correlate the Three
+
+Ask the AI to build a correlation table.
+
+```text
+Here are the email, file and network findings:
+[paste them]
+
+Build a correlation table with timestamp, artefact, source, what it
+supports and confidence. Mark any gaps in the sequence and any alternative
+explanation.
+```
+
+The table is the bridge to the final report. It keeps the claims tied to the evidence.
+
+## From Concept to Practice
+
+An evidence table for mixed sources:
+
+| Time | Source | Artefact | Supports | Confidence |
+|---|---|---|---|---|
+| 2009-12-04 21:32 | USB image | Deleted ZIP recovered | File existed on device | Medium |
+| 2009-12-04 21:34 | USB syslog | Copy to removable media | File was copied to the device | Medium |
+| 2009-12-06 10:30 | PCAP | Outbound transfer to external host | Data left the network | Medium |
+| 2009-12-07 09:45 | Email | Message with matching ZIP hash | File was sent externally | High |
+
+The confidence column is a judgement, not a score. It records how strongly the artefact supports the claim and what would raise or lower it.
+
+## Lab Bridge
+
+Labs 3 and 4 cover email and network analysis:
+
+- [Lab 3: Email and Logs](https://github.com/michael-borck/forensics-docker-lab/blob/main/cases/Email_Logs/WALKTHROUGH.md)
+- [Lab 4: Network Analysis](https://github.com/michael-borck/forensics-docker-lab/blob/main/cases/Network_Analysis/WALKTHROUGH.md)
+
+Run the lab commands and record the real values. The walkthroughs use illustrative outputs; your evidence is what matters.
+
+## Business Connection
+
+Email and network evidence are often the most persuasive to decision-makers and the most vulnerable to overclaiming. A report that says "the data was emailed externally" may be enough for a disciplinary process. A report that says "the employee intended to sell the data" needs evidence of intent that email headers cannot provide.
+
+The organisation also has privacy and legal obligations. Examining an employee mailbox or network traffic requires authorisation. The report should record the authority and the scope of access.
+
+## Practice Exercises
+
+**Exercise 6.1 (Level 1).** Name three things an email header can show and one thing it cannot prove.
+
+**Exercise 6.2 (Level 2).** Extract one email from the lab mailbox and record the sender, recipient, date and subject.
+
+**Exercise 6.3 (Level 3).** Compare an email attachment with a recovered file using a hash. State what the match proves.
+
+**Exercise 6.4 (Level 4).** Build a flow summary from the lab PCAP. Identify one flow that deserves follow-up and one benign flow.
+
+**Exercise 6.5 (Level 5).** Build a correlation table across email, file and network evidence. Mark the gaps and one alternative explanation.
+
+## Chapter Summary
+
+- Email shows messages and attachments, not whether they were read.
+- Network traffic shows connections and volume, not content when encrypted.
+- A hash match connects content across sources.
+- Correlation is stronger than any single artefact.
+- Privacy and authorisation are part of the evidence record.
+
+## Reflection
+
+Before moving on, ensure you:
+
+- [ ] Read the email headers rather than only the From line
+- [ ] Hashed the attachment and compared it with the file
+- [ ] Summarised network flows before packet detail
+- [ ] Marked encrypted traffic as a limitation
+- [ ] Built a correlation table with confidence
+
+## Your Learning Journal
+
+1. Which finding was most persuasive, and what was missing?
+2. Where could encrypted traffic hide the answer?
+3. What authorisation did the investigation require?
+
+## Next Steps
+
+The traces are collected. The next chapter turns them into a timeline and tests the story against alternative explanations.

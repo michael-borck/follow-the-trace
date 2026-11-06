@@ -1,0 +1,15 @@
+# About the Author {.unnumbered}
+
+**Michael Borck** is a software developer and educator working at the intersection of human expertise and artificial intelligence. He teaches applied AI, security and systems analysis, and builds hands-on labs for people who learn by doing.
+
+His books include *Conversation, Not Delegation*, *The Human Edge*, *Assume Breach*, *Substantiate, Don't Assume*, *Speak Software*, *Build Web, Guide AI* and *Frame the System, Guide the AI*.
+
+*Follow the Trace, Prove the Case* is the reasoning companion to the forensics lab. It treats tools as instruments, not verdicts, and asks the analyst to show what the evidence can support.
+
+---
+
+**Connect**
+
+- [GitHub projects](https://github.com/michael-borck)
+- [Free book collection](https://books.borck.education)
+- [LinkedIn](https://linkedin.com/in/michaelborck)

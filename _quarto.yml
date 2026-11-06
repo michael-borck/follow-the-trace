@@ -1,0 +1,97 @@
+project:
+  type: book
+  output-dir: _book
+  resources:
+    - LICENSE
+
+book:
+  title: "Follow the Trace, Prove the Case"
+  subtitle: "Digital Forensics in Practice"
+  author: "Michael Borck"
+  date: "last-modified"
+  license: "CC BY 4.0 International"
+  description: "A practical guide to preserving, examining and reporting digital evidence, with a companion Docker forensics lab."
+  cover-image: cover.png
+  favicon: favicon.svg
+  site-url: https://michael-borck.github.io/follow-the-trace
+  repo-url: https://github.com/michael-borck/follow-the-trace
+  repo-branch: main
+  repo-actions: [edit, issue]
+
+  chapters:
+    - index.qmd
+    - copyright.qmd
+
+    - part: "Preserve"
+      chapters:
+        - chapters/01-question-before-tool.qmd
+        - chapters/02-preserve-the-trace.qmd
+        - chapters/03-acquire-then-analyse.qmd
+
+    - part: "Examine"
+      chapters:
+        - chapters/04-files-and-deleted-data.qmd
+        - chapters/05-memory-and-running-systems.qmd
+        - chapters/06-email-and-network-traces.qmd
+
+    - part: "Prove"
+      chapters:
+        - chapters/07-timeline-and-attribution.qmd
+        - chapters/08-report-and-decision.qmd
+
+  appendices:
+    - appendices/lab-map.qmd
+    - appendices/evidence-templates.qmd
+    - acknowledgments.qmd
+    - about-author.qmd
+
+  page-navigation: true
+  sidebar:
+    style: docked
+    search: true
+    collapse-level: 2
+  other-links:
+    - text: Forensics Lab
+      icon: flask
+      href: https://forensics.borck.education/
+    - text: GitHub
+      icon: github
+      href: https://github.com/michael-borck/follow-the-trace
+    - text: All Books
+      icon: collection
+      href: https://books.borck.education
+
+format:
+  html:
+    theme:
+      light: cosmo
+      dark: darkly
+    css: book-design.css
+    toc: true
+    toc-depth: 3
+    number-sections: true
+    number-depth: 2
+    highlight-style: github
+  pdf:
+    pdf-engine: lualatex
+    fontsize: 11pt
+    linestretch: 1.08
+    include-in-header: [pdf-header.tex, book-design.tex]
+    include-before-body:
+      - copyright-page.tex
+    documentclass: book
+    toc: true
+    toc-depth: 1
+    number-sections: true
+    geometry:
+      - paperwidth=6in
+      - paperheight=9in
+      - inner=1in
+      - outer=0.625in
+      - top=0.75in
+      - bottom=0.75in
+  epub:
+    epub-cover-image: cover.png
+    css: [book-design-epub.css]
+    toc: true
+    toc-depth: 1

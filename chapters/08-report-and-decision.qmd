@@ -1,0 +1,184 @@
+# The Report and the Decision {#sec-report}
+
+> A forensic report is not a story about what you found. It is an argument about what the evidence supports, written for someone who has to act.
+
+## The Concept First
+
+A forensic report has to serve several readers:
+
+- the decision-maker who needs the finding and the risk
+- the technical reviewer who needs the method and the evidence
+- the legal or HR process that needs the chain of custody and the limits
+- the next analyst who needs to reproduce the work
+
+One document can serve all four if it separates the layers.
+
+A useful structure:
+
+- **Purpose and authority**: why the investigation happened and who authorised it.
+- **Scope**: what was examined, what was not, and the time window.
+- **Method**: the acquisition, tools, versions and analysis steps.
+- **Findings**: what the evidence supports, with evidence IDs.
+- **Timeline**: the sequence, with sources and confidence.
+- **Limitations**: what the evidence cannot show and what was not captured.
+- **Recommendations**: what the decision-maker should do next.
+- **Appendices**: custody records, command logs, hashes and artefact tables.
+
+The findings section is where most reports fail. "The suspect exfiltrated data" is a conclusion. "A ZIP archive containing client project files was recovered from the USB image, a matching archive was attached to an email sent to an external address, and a network flow to that address occurred in the same window" is a finding with evidence.
+
+The second version lets the reader see the support and the gaps. It also survives a challenge better.
+
+## Understanding Through a Coroner's Inquest
+
+A coroner's report does not say "the driver was careless" without evidence. It establishes the identity of the deceased, the cause of death, the circumstances and the recommendations that follow.
+
+The report separates medical findings from witness accounts, from the reconstruction, from the conclusion. It names the limits of the evidence. It may say that the cause is undetermined.
+
+A forensic report needs the same discipline. The decision may be disciplinary, contractual, regulatory or criminal, but the report's job is the same: show what the evidence supports and what it does not.
+
+## Discovering the Report with Your AI Partner
+
+### Exploration 1: Draft the Findings from Evidence
+
+Ask the AI to write findings only from the evidence table.
+
+```text
+Here are the evidence table and timeline:
+[paste them]
+
+Write one finding per claim. Each finding must cite the evidence IDs,
+state the confidence and name the limitation. Do not write a conclusion
+that is not supported by a listed artefact.
+```
+
+Review every citation. An AI can invent a plausible evidence ID or merge two artefacts into one claim.
+
+### Exploration 2: Find the Overclaims
+
+Ask the AI to attack the draft.
+
+```text
+Here is the draft report:
+[paste it]
+
+Mark every sentence that claims more than the evidence supports. Look for
+intent, identity, causation and completeness. For each overclaim, write
+the sentence the evidence can support.
+```
+
+Common overclaims: "the suspect copied", "the data was stolen", "the employee intended", "the malware was installed by", "the email was read". Each may be true, but each needs its own evidence.
+
+### Exploration 3: Test Reproducibility
+
+Ask whether another analyst could repeat the work.
+
+```text
+Here is the method section:
+[paste it]
+
+Could another analyst reproduce the findings from this description?
+List the missing commands, tool versions, parameters, hashes, file paths
+and decisions. Do not accept "standard forensic tools" as a method.
+```
+
+A report that cannot be reproduced is a set of opinions with a cover page.
+
+### Exploration 4: Write the Executive Summary Last
+
+Ask the AI to draft the summary from the finished findings, not from the brief.
+
+```text
+Using only the findings, limitations and recommendations, write an
+executive summary for a non-technical decision-maker. Include what was
+found, what is uncertain, what action is recommended and who should act.
+Do not introduce new claims.
+```
+
+The summary should be short enough to read and precise enough to act on.
+
+## From Concept to Practice
+
+A report outline:
+
+```markdown
+# Forensic investigation report
+
+**Case:** CLOUDCORE-2009-INS-001
+**Prepared for:** [decision-maker]
+**Author:** [analyst]
+**Date:** [date]
+
+## 1. Purpose and authority
+## 2. Scope and evidence
+## 3. Method
+## 4. Findings
+### 4.1 Finding one
+- Evidence:
+- Confidence:
+- Limitation:
+## 5. Timeline
+## 6. Limitations
+## 7. Recommendations
+## 8. Appendices
+- Chain of custody
+- Command and analysis log
+- Hashes
+- Artefact table
+```
+
+A finding should be falsifiable. "The ZIP archive on the USB image matches the email attachment by SHA-256" can be checked. "The suspect stole data" cannot be checked from the report alone.
+
+## Lab Bridge
+
+Lab 5 provides the report template and the consolidation workflow:
+
+- [Lab 5: Final Report](https://github.com/michael-borck/forensics-docker-lab/blob/main/cases/Final_Report/WALKTHROUGH.md)
+- [Final report template](https://github.com/michael-borck/forensics-docker-lab/blob/main/templates/final_report_template.md)
+
+Use your own findings. The walkthrough's example narrative is illustrative, not a model answer.
+
+## Business Connection
+
+The report is the product of the investigation. A technically excellent analysis that cannot be understood or trusted by the decision-maker has limited value.
+
+The report also protects the organisation. It records what was examined, what was not and what remains uncertain. If the decision is challenged, the report is the evidence trail. If the investigation is handed to another team, the report is the starting point.
+
+## Practice Exercises
+
+**Exercise 8.1 (Level 1).** List the sections of a forensic report and the reader each serves.
+
+**Exercise 8.2 (Level 2).** Write three findings from your evidence table. Cite the evidence and state the confidence.
+
+**Exercise 8.3 (Level 3).** Find three overclaims in a draft report and rewrite them to match the evidence.
+
+**Exercise 8.4 (Level 4).** Write the limitations section for the Cloudcore investigation. Include what was not captured and what the evidence cannot show.
+
+**Exercise 8.5 (Level 5).** Produce a complete report for the lab case. Include findings, timeline, limitations and recommendations. Ask another analyst whether they could reproduce it.
+
+## Chapter Summary
+
+- A report separates purpose, scope, method, findings, timeline, limitations and recommendations.
+- Findings cite evidence and state confidence.
+- Attribution and intent require evidence beyond the artefact.
+- Limitations are part of the finding, not an apology.
+- A report that cannot be reproduced is not a forensic report.
+
+## Reflection
+
+Before moving on, ensure you:
+
+- [ ] Wrote findings that cite evidence IDs
+- [ ] Stated the confidence and limitations for each finding
+- [ ] Removed or rewrote every overclaim
+- [ ] Recorded the method and tool versions
+- [ ] Recommended an action for the decision-maker
+
+## Your Learning Journal
+
+1. Which finding was hardest to write without overclaiming?
+2. What limitation changes the decision the most?
+3. Would another analyst reproduce your work from the report?
+
+## Next Steps
+
+The case is reported. The appendices collect the lab map and the evidence templates used through the book.

@@ -1,0 +1,173 @@
+# Timeline, Correlation and Attribution {#sec-timeline}
+
+> A timeline is not a story. It is a set of events with sources, times and confidence. The story comes later, and only if the timeline supports it.
+
+## The Concept First
+
+A forensic timeline places events in order. It combines artefacts from disk, memory, email, network and logs.
+
+A useful timeline has more than timestamps. It records:
+
+- the event
+- the source
+- the time and time zone
+- the confidence
+- what the event supports
+- what it does not support
+
+Time is harder than it looks. Different systems use different clocks. A workstation may be minutes or hours out. A server may log in UTC while the investigator works in local time. A file system may record a modified time from the application rather than the operating system. A network capture may use a different time base from a log.
+
+Before comparing times, normalize them. Record the time zone and the source clock. If the source clock is unreliable, say so. A timeline that silently mixes local and UTC times can invent an order that never happened.
+
+Correlation is the process of testing whether events fit together. Two events close in time may be related. They may also be coincidence. A file copied at 21:32 and an email sent at 21:35 is a plausible sequence. It is not proof that the same person did both.
+
+Attribution is the claim that a person, account, device or group is responsible. It is the strongest claim in an investigation and the easiest to overreach. A shared account, a compromised workstation, a remote session or a scheduled task can all produce activity that looks like a person.
+
+Use confidence language:
+
+- **Observed**: the artefact directly shows the event.
+- **Correlated**: two independent artefacts support the sequence.
+- **Inferred**: the event is the most likely explanation, but not directly shown.
+- **Unsupported**: the claim is not established by the evidence.
+
+## Understanding Through a Train Crash Investigation
+
+A train crash investigation starts with the event recorder, the signalling log, the maintenance record, the driver's roster and the witness statements. Each has its own clock and its own reliability.
+
+The investigator builds a timeline with sources. The signal turned red at 07:42:10. The train passed it at 07:42:14. The brake pressure dropped at 07:42:18. The driver's statement says the brake was applied earlier. The maintenance record shows a scheduled inspection two days before.
+
+The timeline does not decide the cause. It exposes the conflict between the recorded time and the driver's account. The investigator then tests which explanation fits the physical evidence. The report names the confidence and the limits.
+
+Forensic timelines work the same way. The events are evidence. The order is a hypothesis. The cause is a conclusion that has to survive the alternatives.
+
+## Discovering the Timeline with Your AI Partner
+
+### Exploration 1: Normalize the Times
+
+Ask the AI to build a time-normalization table before it builds a timeline.
+
+```text
+Here are the artefacts and their recorded times:
+[paste them]
+
+For each artefact, record the source clock, the time zone, the offset
+from a common reference and the confidence in the clock. Do not compare
+events until the times share a reference.
+```
+
+If the time zone is unknown, mark it unknown. Do not guess.
+
+### Exploration 2: Build the Timeline
+
+Ask for a structured table, not a narrative.
+
+```text
+Using the normalized times, build a timeline with columns for time,
+event, source, supports, confidence and gap. Keep the events separate.
+Do not write a story yet.
+```
+
+A good timeline will show gaps and conflicts. A timeline with no gaps is usually a story with the evidence removed.
+
+### Exploration 3: Test the Competing Stories
+
+Ask the AI to argue for alternative explanations.
+
+```text
+Here is the timeline:
+[paste it]
+
+Write three explanations that are consistent with the timeline:
+one insider action, one compromised account and one accidental or benign
+explanation. For each, name the evidence that would strengthen it and the
+evidence that would rule it out.
+```
+
+The exercise tests whether the timeline can distinguish the explanations. If it cannot, the report should say so.
+
+### Exploration 4: Separate Attribution from Action
+
+Ask what the evidence can say about who.
+
+```text
+The timeline shows a file copied to a USB device and an email sent from a
+corporate account. Separate the claims about the action, the account, the
+device and the person. For each claim, state the evidence and the
+confidence.
+```
+
+An action can be observed. An account can be correlated. A person requires evidence that the account was used by that person at that time.
+
+## From Concept to Practice
+
+A timeline table:
+
+| Time (AEDT) | Event | Source | Supports | Confidence | Gap |
+|---|---|---|---|---|---|
+| 2009-12-04 21:32 | ZIP created on workstation | USB image metadata | File existed | Medium | Clock not verified |
+| 2009-12-04 21:34 | ZIP copied to USB | USB syslog | Copy occurred | Medium | User not identified |
+| 2009-12-05 02:11 | Keylogger process starts | Memory | Process running | High | Installer not found |
+| 2009-12-06 10:30 | Outbound transfer | PCAP | Data left network | Medium | Content encrypted |
+| 2009-12-07 09:45 | Email with matching attachment | Mailbox | File sent externally | High | Recipient not confirmed |
+
+The attribution column might say:
+
+- the file was copied: observed
+- the account was used: correlated
+- the suspect was at the keyboard: unsupported without additional evidence
+
+That is not a weakness in the investigation. It is an honest description of what the evidence can carry.
+
+## Lab Bridge
+
+Lab 5 is the synthesis lab:
+
+- [Lab 5: Final Report](https://github.com/michael-borck/forensics-docker-lab/blob/main/cases/Final_Report/WALKTHROUGH.md)
+
+Use the earlier lab reports and chain-of-custody records. Build the timeline before you write the narrative. Mark the confidence and the gaps.
+
+## Business Connection
+
+Decision-makers want a clear story. Investigators must resist giving them a clearer story than the evidence supports.
+
+A timeline that distinguishes observed, correlated and inferred events gives the organisation options. It can act on the observed facts, investigate the gaps and avoid overcommitting to an attribution it cannot defend.
+
+## Practice Exercises
+
+**Exercise 7.1 (Level 1).** Explain why time zones matter in a forensic timeline.
+
+**Exercise 7.2 (Level 2).** Build a five-event timeline from the lab evidence. Include source and confidence.
+
+**Exercise 7.3 (Level 3).** Find one conflict or gap in your timeline and explain what evidence would resolve it.
+
+**Exercise 7.4 (Level 4).** Write three competing explanations for the same timeline. Name the evidence that distinguishes them.
+
+**Exercise 7.5 (Level 5).** Separate the claims about action, account, device and person for one event. State the confidence for each and what would raise it.
+
+## Chapter Summary
+
+- A timeline records events, sources, times, confidence and gaps.
+- Normalize clocks and time zones before comparing events.
+- Correlation is not causation; two events close in time may be unrelated.
+- Attribution is the strongest claim and needs the strongest evidence.
+- Use observed, correlated, inferred and unsupported deliberately.
+
+## Reflection
+
+Before moving on, ensure you:
+
+- [ ] Normalized the times to a common reference
+- [ ] Recorded the source and confidence for each event
+- [ ] Marked at least one gap
+- [ ] Tested an alternative explanation
+- [ ] Separated action from attribution
+
+## Your Learning Journal
+
+1. Which event was most dependent on an unverified clock?
+2. Which alternative explanation was hardest to rule out?
+3. What would you need to attribute the action to a person?
+
+## Next Steps
+
+The timeline is built. The final chapter turns it into a report that a decision-maker can use and another examiner can reproduce.

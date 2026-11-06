@@ -1,0 +1,44 @@
+# Quarto
+/.quarto/
+/_book/
+/_site/
+/_freeze/
+*_files/
+_print_source/
+
+# OS
+.DS_Store
+Thumbs.db
+._*
+
+# Editor
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# Secrets
+.env
+.env.local
+*.key
+
+# Build artifacts
+*.log
+*.aux
+*.out
+*.toc
+*.pdf
+*.epub
+
+# Generated
+llm.txt
+rag-documents/
+.anythingllm.yml
+
+**/*.quarto_ipynb

@@ -1,0 +1,147 @@
+# Memory and Running Systems {#sec-memory}
+
+> Memory is a photograph of a moving system. It can show what was running. It cannot show everything that happened before the shutter opened.
+
+## The Concept First
+
+Volatile memory contains the state of a running system: processes, loaded libraries, network connections, open files, credentials, encryption keys and fragments of user activity.
+
+Memory forensics examines a capture of that state. It can answer questions such as:
+
+- Which processes were running, and which process started them?
+- Which libraries were loaded into a process?
+- Which network connections were open?
+- Which files or registry keys were in use?
+- Was a known malicious tool present?
+
+Memory evidence is time-sensitive. Shutting down the machine destroys it. Capturing memory can change the system slightly, and the capture tool itself is part of the evidence record.
+
+A process tree is not proof of intent. A keylogger running under a normal user process may indicate malware, a compromised account or an authorised monitoring tool. A DLL list can show network capability. It does not show what data left the machine.
+
+The strongest memory finding connects a process, its loaded modules, its network activity and an independent artefact such as a file, a log entry or a network flow.
+
+## Understanding Through a Busy Kitchen
+
+A photograph of a busy kitchen at dinner service shows who was at which station, what was on the stove and what had just come out of the oven. It does not show the argument an hour earlier, the dish that was thrown away or the supplier who delivered the ingredients.
+
+The photograph is still useful. It can show that a station was running, that a particular pan was in use and that two people were working together. It cannot show the whole shift.
+
+A memory capture is that photograph. It shows the running state at one moment. The analyst has to combine it with the order book, the delivery records and the staff roster to explain the service.
+
+## Discovering Memory Evidence with Your AI Partner
+
+### Exploration 1: Read the Process Tree
+
+Ask the AI to help interpret the process tree, not to declare malware.
+
+```text
+Here is `pstree` output from a Windows XP memory sample:
+[paste it]
+
+Identify parent-child relationships that look unusual. For each one,
+write the question you would ask next and the evidence that would
+distinguish malware from a legitimate tool. Do not call a process
+malicious from its name alone.
+```
+
+A keylogger name is a clue. The parent process, the loaded DLLs, the network connections and the file path are evidence.
+
+### Exploration 2: Connect Modules to Capability
+
+Ask what the loaded libraries can do, without overclaiming.
+
+```text
+A process has loaded WININET.dll, urlmon.dll and iertutil.dll. Explain
+what capability these libraries suggest. What can they not prove? What
+additional artefacts would show whether the process actually communicated
+with an external host?
+```
+
+The libraries suggest internet capability. They do not prove exfiltration. Network connections, DNS queries, proxy logs or packet captures are needed to show communication.
+
+### Exploration 3: Test the Capture Timing
+
+Ask how the capture time affects the conclusion.
+
+```text
+The memory capture was taken at 18:47. A suspect process started at 02:11
+the same day. Explain what the memory image can and cannot show about the
+process activity between those times. What other evidence would fill the
+gap?
+```
+
+Memory shows the process was running at capture time and when it started. It may show current connections and recent commands. It does not show every keystroke or every packet unless those artefacts survived in memory.
+
+## From Concept to Practice
+
+A memory finding record:
+
+| Field | Example |
+|---|---|
+| Evidence ID | CC-2009-MEM-01 |
+| Capture time | 2009-12-05 18:47 AEDT |
+| System | Windows XP SP3 workstation |
+| Process | ToolKeylogger.exe |
+| PID and parent | PID 280, parent explorer.exe |
+| Loaded modules | WININET.dll, urlmon.dll, iertutil.dll |
+| Network connections | Outbound connection to external host |
+| Start time | 2009-12-05 02:11:23 UTC |
+| Corroboration | File system artefact, network flow, log entry |
+| Limitations | Memory capture after the fact; process name alone is not proof |
+
+The table is more useful than a paragraph that says "malware was found". It shows the reader what was observed and what remains uncertain.
+
+## Lab Bridge
+
+Lab 2 uses Volatility with a pre-captured Windows memory sample:
+
+- [Lab 2: Memory Forensics](https://github.com/michael-borck/forensics-docker-lab/blob/main/cases/Memory_Forensics/WALKTHROUGH.md)
+- [Memory case folder](https://github.com/michael-borck/forensics-docker-lab/tree/main/cases/Memory_Forensics)
+
+The lab's example PIDs and DLLs are illustrative. Your sample may differ. The method is the lesson: identify the profile, list processes, inspect the tree, verify with a second plugin and connect to other evidence.
+
+## Business Connection
+
+Memory analysis is often the fastest way to find active malware and compromised credentials. It is also the easiest evidence to lose and the easiest to overread.
+
+A report that says "a keylogger was running" is useful. A report that says "the employee installed a keylogger to steal credentials" needs evidence of installation, control and use. The business decision may depend on the difference.
+
+## Practice Exercises
+
+**Exercise 5.1 (Level 1).** Explain why memory evidence is time-sensitive.
+
+**Exercise 5.2 (Level 2).** Run `pstree` on the lab memory sample and identify one unusual parent-child relationship.
+
+**Exercise 5.3 (Level 3).** List the loaded modules for one suspicious process. Explain what capability they suggest and what they do not prove.
+
+**Exercise 5.4 (Level 4).** Write a memory finding record with at least one limitation and one corroborating artefact.
+
+**Exercise 5.5 (Level 5).** Build the case for and against the claim that a process was used to exfiltrate data. State the evidence that would decide it.
+
+## Chapter Summary
+
+- Memory is volatile and must be captured before shutdown.
+- Process trees, modules and connections are clues, not verdicts.
+- A process name alone is not evidence of intent.
+- Capture timing limits what memory can show.
+- The strongest finding connects process, capability, connection and an independent artefact.
+
+## Reflection
+
+Before moving on, ensure you:
+
+- [ ] Recorded the capture time and system state
+- [ ] Identified the process and its parent
+- [ ] Listed the loaded modules that matter
+- [ ] Found or ruled out a network connection
+- [ ] Named one alternative explanation
+
+## Your Learning Journal
+
+1. Which process looked suspicious but had a benign explanation?
+2. What did the capture time hide?
+3. What corroborating evidence would make the memory finding stronger?
+
+## Next Steps
+
+Memory shows the running system. The next chapter follows the traces left in email and network traffic.

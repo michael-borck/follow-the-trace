@@ -1,0 +1,118 @@
+# Evidence Templates {#sec-evidence-templates}
+
+## Case brief
+
+```markdown
+# Case brief: [case name]
+
+## Allegation
+
+## Questions
+
+## Hypotheses
+- Hypothesis:
+  - Supports:
+  - Rules out:
+
+## Scope
+- Systems:
+- People:
+- Time window:
+- Evidence:
+
+## Out of scope
+
+## Decision this informs
+```
+
+## Chain of custody
+
+| Field | Entry |
+|---|---|
+| Evidence ID | |
+| Description | |
+| Source | |
+| Collected by | |
+| Collected at | |
+| Device identifier | |
+| Acquisition method | |
+| Write blocker | |
+| Hash algorithm | |
+| Hash before | |
+| Hash after | |
+| Storage | |
+| Transfers | |
+
+## File evidence record
+
+| Field | Entry |
+|---|---|
+| Evidence ID | |
+| File name | |
+| Path | |
+| Recovery method | |
+| Size | |
+| Hash | |
+| Created | |
+| Modified | |
+| Deleted status | |
+| Content summary | |
+| Corroboration | |
+| Limitations | |
+
+## Memory finding record
+
+| Field | Entry |
+|---|---|
+| Evidence ID | |
+| Capture time | |
+| System | |
+| Process | |
+| PID and parent | |
+| Loaded modules | |
+| Network connections | |
+| Start time | |
+| Corroboration | |
+| Limitations | |
+
+## Timeline
+
+| Time (normalized) | Event | Source | Supports | Confidence | Gap |
+|---|---|---|---|---|---|
+| | | | | | |
+
+## Finding
+
+```markdown
+### Finding [number]
+
+**Claim:**
+
+**Evidence:**
+
+**Confidence:** observed / correlated / inferred / unsupported
+
+**Limitation:**
+
+**What would change this finding:**
+```
+
+## Report outline
+
+```markdown
+# Forensic investigation report
+
+**Case:**
+**Prepared for:**
+**Author:**
+**Date:**
+
+## 1. Purpose and authority
+## 2. Scope and evidence
+## 3. Method
+## 4. Findings
+## 5. Timeline
+## 6. Limitations
+## 7. Recommendations
+## 8. Appendices
+```

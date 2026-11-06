@@ -1,0 +1,147 @@
+# Files and Deleted Data {#sec-files}
+
+> Deletion is usually a bookkeeping change, not an erasure. The question is not whether the file is gone, but what remains and what it can prove.
+
+## The Concept First
+
+A file system is a catalogue. It records names, locations, sizes, timestamps and permissions. The file content lives elsewhere on the storage medium.
+
+On a FAT file system, deleting a file commonly marks the directory entry as free and releases the clusters. The data may remain in unallocated space until something overwrites it. That is why deleted files can sometimes be recovered.
+
+There are two broad recovery methods:
+
+- **Metadata recovery** uses the file system records to find the file and its clusters. `fls` and `icat` work this way.
+- **File carving** searches raw data for known file headers, footers and structures without relying on the catalogue. `foremost`, `photorec` and `scalpel` work this way.
+
+Both produce candidates, not conclusions. A recovered file needs to be hashed, described and connected to the case. A carved file may be incomplete, overwritten or a false positive. A recovered filename may be a remnant of an earlier file.
+
+Timestamps matter, but they are not self-explanatory. A modified time can come from the file system, the application or the operating system. Time zones and clock skew can shift the sequence. A copied file may inherit a new creation time and preserve an old modified time.
+
+The strongest finding connects three things: the content, the metadata and an independent event. A deleted archive containing client data is interesting. The same archive, a log entry showing a copy to removable media, and a matching hash from another source are a case.
+
+## Understanding Through a Filing Cabinet
+
+A filing cabinet has labels, folders and documents. If someone removes a document, the label may remain, the folder may be empty and the document may still be in the recycling bin.
+
+The label tells you what was supposed to be there. The empty folder tells you something was removed. The recycling bin tells you what survived. None of them tells you who removed it or why.
+
+A forensic examination reads the labels, the folder structure, the recycling bin and the surrounding records. It also checks whether the document in the bin matches the copy found somewhere else. The match is what turns a suspicion into a supported finding.
+
+## Discovering File Evidence with Your AI Partner
+
+### Exploration 1: Read the File System Output
+
+Ask the AI to help interpret output without letting it invent facts.
+
+```text
+Here is `fls` output from a FAT image:
+[paste it]
+
+Explain what each column means. Identify deleted entries, allocated
+entries and anything that needs a follow-up command. Do not infer file
+content from the name alone.
+```
+
+A good answer will distinguish the directory entry from the data clusters and will ask for `icat` or `fsstat` before drawing conclusions.
+
+### Exploration 2: Choose Recovery Methods
+
+Ask which method fits the question.
+
+```text
+The investigation needs to recover a deleted ZIP archive from a FAT32 USB
+image. Compare metadata recovery with file carving for this case. What
+does each method preserve? What can each miss? What evidence would you
+record for each recovered candidate?
+```
+
+Metadata recovery can preserve the original path and timestamps. Carving can recover content after the directory entry is gone, but may lose the name and path. The report should say which method produced the file.
+
+### Exploration 3: Attack the Finding
+
+Ask the AI to challenge a recovered file.
+
+```text
+A deleted file named project_secrets.zip was recovered from unallocated
+space. List every reason this file might not support the claim that the
+suspect copied it to the USB device. Include overwrite, prior ownership,
+shared device, automated backup and false positive.
+```
+
+The challenge list becomes the limitations section of the report. It also suggests the corroborating evidence you need.
+
+## From Concept to Practice
+
+A file evidence record:
+
+| Field | Example |
+|---|---|
+| Evidence ID | CC-2009-USB-01 |
+| File name | project_secrets.zip |
+| Path | /Documents/ |
+| Recovery method | Metadata recovery (`icat`) |
+| Size | 4,182 bytes |
+| Hash | SHA-256 value |
+| Created | 2009-12-04 21:32 AEDT |
+| Modified | 2009-12-04 21:34 AEDT |
+| Deleted | Directory entry marked free |
+| Content summary | ZIP archive with project files |
+| Corroboration | Syslog copy entry; email attachment hash |
+| Limitations | Timestamps depend on device clock; file could predate device |
+
+The limitations column is not optional. It tells the reader what the evidence cannot settle.
+
+## Lab Bridge
+
+Lab 1 guides the USB image through triage, file system analysis, deleted file recovery and carving:
+
+- [Lab 1: USB Imaging](https://github.com/michael-borck/forensics-docker-lab/blob/main/cases/USB_Imaging/WALKTHROUGH.md)
+- [USB case folder](https://github.com/michael-borck/forensics-docker-lab/tree/main/cases/USB_Imaging)
+
+Record the commands and the real output. The walkthrough's example hashes and counts are illustrative, not a target.
+
+## Business Connection
+
+Deleted-file findings are persuasive to non-technical readers and easy to overstate. "Recovered deleted client data" sounds like proof of theft. It may be proof that a file existed on a device at some point.
+
+A defensible report separates existence, content, timing and intent. It states which of those the evidence supports and which require another source. That distinction protects the organisation from acting on a finding the evidence cannot carry.
+
+## Practice Exercises
+
+**Exercise 4.1 (Level 1).** Explain the difference between metadata recovery and file carving.
+
+**Exercise 4.2 (Level 2).** Run `fls` on the lab image and identify one deleted entry. Record the path and the follow-up command.
+
+**Exercise 4.3 (Level 3).** Recover one deleted file and hash it. Write the evidence record, including the limitations.
+
+**Exercise 4.4 (Level 4).** Find one carved file that could be a false positive or an incomplete recovery. Explain how you would decide.
+
+**Exercise 4.5 (Level 5).** Correlate a recovered file with a log entry and an email attachment hash. State what the combination proves and what it still does not prove.
+
+## Chapter Summary
+
+- Deletion usually changes metadata, not the underlying data.
+- Metadata recovery and carving answer different questions.
+- A recovered file is a candidate until it is hashed, described and corroborated.
+- Timestamps need a time zone, a source and a clock check.
+- The strongest finding connects content, metadata and an independent event.
+
+## Reflection
+
+Before moving on, ensure you:
+
+- [ ] Recorded the recovery method for every file
+- [ ] Hashed the recovered content
+- [ ] Stated the timestamps and their source
+- [ ] Named at least one limitation
+- [ ] Found one piece of corroborating evidence
+
+## Your Learning Journal
+
+1. Which recovered file was most convincing, and why?
+2. Where could a filename mislead an analyst?
+3. What would you need to prove who copied the file?
+
+## Next Steps
+
+The disk shows what was stored. The next chapter examines what was running when the memory was captured.

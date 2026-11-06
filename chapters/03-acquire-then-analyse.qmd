@@ -1,0 +1,176 @@
+# Acquire, Then Analyse {#sec-acquire}
+
+> Acquisition captures the evidence. Analysis interprets it. Confusing the two produces confident findings with no foundation.
+
+## The Concept First
+
+Acquisition is the process of creating a forensic copy of a source. Analysis is the process of examining that copy.
+
+The distinction matters because acquisition determines what evidence exists. If you boot the suspect machine, you lose volatile memory. If you mount the USB read-write, you may change file system metadata. If you capture only HTTPS metadata, you cannot read the encrypted content. No analysis tool can recover evidence that was never captured or was destroyed before capture.
+
+Common acquisition types:
+
+- **Disk imaging**: a sector-by-sector copy of a storage device, often in raw or EWF format.
+- **Memory capture**: a copy of RAM while the system is running, using a trusted acquisition tool.
+- **Network capture**: a packet capture from a tap, span port or endpoint.
+- **Email export**: a mailbox export in a standard format such as MBOX, PST or EML.
+- **Log export**: system, application or security logs with timestamps and source information.
+
+Each has a scope and a limitation. A disk image does not include RAM. A memory dump does not include deleted files on disk. A network capture does not include the content of encrypted traffic. An email export does not prove the recipient read the message.
+
+The forensics Docker lab is an **analysis** environment. It gives you pre-acquired evidence: a generated USB image, a memory sample, a mailbox, logs and a packet capture. It cannot write-block a physical USB device, capture live RAM or sniff a network interface. That is not a defect in the lab. It is a boundary you need to understand before you claim what the evidence proves.
+
+## Understanding Through a Crime Scene
+
+A crime scene photographer does not rearrange the room to get a better shot. The scene is documented before anything is moved. The photographer captures the whole room, then the close-ups, then the details that might matter later.
+
+If the photographer moves the knife before photographing the table, the photograph no longer shows the scene as found. The image may still be sharp. It is no longer evidence of the original arrangement.
+
+Digital acquisition works the same way. Capture the source before you explore it. Record the state. Then make a working copy and analyse that.
+
+## Discovering Acquisition with Your AI Partner
+
+### Exploration 1: Build the Acquisition Plan
+
+Ask the AI to turn the case questions into an acquisition plan.
+
+```text
+Here are the investigation questions and the available sources:
+[paste them]
+
+Write an acquisition plan. For each source, name what to capture, the
+tool or method, the order of capture, the hash, the custody record and
+what will be lost if the source is not captured first. Mark any source
+that cannot be captured in the current environment.
+```
+
+Order matters. Volatile memory is lost on shutdown. Network state changes by the second. Disk data is more stable but still changes while the system runs. The plan should capture the most volatile evidence first when that is safe and authorised.
+
+### Exploration 2: State the Lab Boundary
+
+Ask the AI to separate what the lab can and cannot demonstrate.
+
+```text
+The forensics lab runs in a Docker container and provides a USB image, a
+pre-captured memory dump, a mailbox, logs and a PCAP.
+
+List what the lab can teach about analysis and what it cannot teach about
+acquisition. Explain why each limitation exists and what a real
+investigation would need instead.
+```
+
+A good answer will say that the lab cannot write-block or image a physical device, capture live RAM, sniff a live network or seize hardware. It can teach file system analysis, memory analysis, email parsing, packet analysis and reporting.
+
+### Exploration 3: Find the Missing Capture
+
+Ask what evidence the plan does not collect.
+
+```text
+Here is the acquisition plan:
+[paste it]
+
+What evidence is missing that the investigation questions require? What
+could not be captured after the fact? What would you ask the incident
+responder to preserve immediately?
+```
+
+The missing capture is often the most useful finding. A laptop that was rebooted before memory capture, a mailbox that was exported after deletion, or a network segment with no capture are gaps that shape the conclusion.
+
+## From Concept to Practice
+
+A simple acquisition checklist:
+
+```markdown
+# Acquisition record
+
+**Case:**
+**Source:**
+**Owner or location:**
+**Authorisation:**
+**Capture order:**
+
+## Disk
+- Device identity:
+- Write blocker:
+- Tool and version:
+- Image format:
+- Hash before and after:
+
+## Memory
+- System state:
+- Capture tool:
+- Memory size:
+- Hash:
+
+## Network
+- Capture point:
+- Start and end time:
+- Filter:
+- Packet count and hash:
+
+## Email and logs
+- Export format:
+- Date range:
+- Source system:
+- Hash:
+
+## Gaps
+- What was not captured, and why.
+```
+
+The gaps section is not an admission of failure. It is a statement of scope. A report without it invites the reader to assume the evidence is complete.
+
+## Lab Bridge
+
+The lab explicitly separates what the container can and cannot do. Read that section before you begin:
+
+- [Environment scope](https://github.com/michael-borck/forensics-docker-lab#-environment-scope-what-docker-can--cannot-do)
+- [Evidence sources](https://github.com/michael-borck/forensics-docker-lab/blob/main/docs/evidence-sources.md)
+
+When you analyse the USB image, remember that the acquisition step is simulated. The reasoning still applies; the physical write-blocking and seizure are outside the lab.
+
+## Business Connection
+
+Acquisition decisions are business decisions. Capturing a live server may disrupt service. Shutting down a laptop may destroy memory. Exporting a mailbox may trigger privacy obligations. The incident responder needs to balance evidence preservation against operational, legal and safety constraints.
+
+The report should state those trade-offs. "Memory was not captured because the machine was rebooted before the team arrived" is a limitation the decision-maker needs to know.
+
+## Practice Exercises
+
+**Exercise 3.1 (Level 1).** List four acquisition types and one limitation of each.
+
+**Exercise 3.2 (Level 2).** Write the acquisition order for a running laptop, a USB device and a network segment. Explain the order.
+
+**Exercise 3.3 (Level 3).** Read the lab's environment scope and write a paragraph explaining what the lab can and cannot prove about acquisition.
+
+**Exercise 3.4 (Level 4).** Design an acquisition plan for an investigation where the server cannot be taken offline. State the evidence you would lose and the mitigation.
+
+**Exercise 3.5 (Level 5).** Review a real or simulated incident where evidence was not captured. Explain how the missing capture limits the conclusions and what the report should say.
+
+## Chapter Summary
+
+- Acquisition captures evidence; analysis interprets it.
+- Volatile evidence is lost if capture is delayed.
+- Every acquisition type has a scope and a limitation.
+- The Docker forensics lab teaches analysis, not physical acquisition.
+- The report must state what was not captured and why.
+
+## Reflection
+
+Before moving on, ensure you:
+
+- [ ] Named the acquisition method for each source
+- [ ] Recorded the hash and custody entry
+- [ ] Identified what would be lost if capture were delayed
+- [ ] Stated the lab's acquisition limits
+- [ ] Wrote the gaps section
+
+## Your Learning Journal
+
+1. Which source is most volatile in your case?
+2. What acquisition trade-off would you escalate to a manager?
+3. Where could a report accidentally imply evidence it does not have?
+
+## Next Steps
+
+The evidence is captured. The next chapter examines files and deleted data on storage media.
