@@ -8,6 +8,8 @@ This book is for people learning digital forensics, incident responders who need
 
 It assumes you can use a command line, read a log and follow a lab. It does not assume you are a lawyer, a police officer or a full-time forensic examiner.
 
+The same discipline applies to AI: follow the output back to its source until you can defend every claim.
+
 ## The companion lab
 
 The running case is the **Cloudcore** investigation in the [forensics-docker-lab](https://forensics.borck.education/). A mid-sized software company suspects that an employee copied client data before leaving. The lab provides a USB image, a memory dump, an email archive, network traffic and report templates.
