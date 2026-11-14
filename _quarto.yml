@@ -11,7 +11,7 @@ book:
   date: "last-modified"
   license: "CC BY 4.0 International"
   description: "A practical guide to preserving, examining and reporting digital evidence, with a companion Docker forensics lab."
-  cover-image: cover.png
+  cover-image: cover-web.jpg
   favicon: favicon.svg
   site-url: https://michael-borck.github.io/follow-the-trace
   repo-url: https://github.com/michael-borck/follow-the-trace
